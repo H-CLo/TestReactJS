@@ -1,11 +1,12 @@
 // App.jsx
 // 用於引入要使用的函式庫或程式碼檔案，與 Require（ES5語法）相同，import from為ES6+的寫法。
 // Export 匯出，可以被視作是將程式碼做為一個組件的設定匯出，方便之後在其他地方重複使用（reuse）。
+import PropTypes from 'prop-types';
 import React from 'react';
 class Header extends React.Component {
    render() {
       return (
-          <h1>header</h1>
+          <h1>{this.props.title}</h1>
       );
    }
 }
@@ -16,6 +17,7 @@ class Content extends React.Component {
          <div>
             <h2>Content</h2>
             <p>The content text!!!</p>
+            <p>{this.props.id}</p>
          </div>
       );
    }
@@ -37,8 +39,8 @@ class TableRow extends React.Component {
 /* 組件具有物件的概念，extend是繼承的意思，讓產生出來的組件具備一些組件可以執行的函式，像是下面的render。*/
 class App extends React.Component {
 
-    constructor(){
-   	    super();
+    constructor(props){
+   	    super(props);
         //在這段程式碼裡面, state有一個叫做 data 和一個叫做 id 的狀態, data 這個狀態的值是一個陣列, 陣列裡面每一個元素都是一個物件, 每個物件裡面包含兩個屬性：name 和 age, 而 id 這個狀態則只有一個字串作為他的狀態值
         this.state = {
          data: 
@@ -56,7 +58,8 @@ class App extends React.Component {
                "age":"3"
             }
          ],
-         id:"Animal List"
+         id:"Animal List",
+         name:"HungCLo"
       }
     }
 
@@ -65,7 +68,7 @@ class App extends React.Component {
 
    	  /*駝峰式語法*/
    	  var myStyle = {
-        fontSize: 100,
+        fontSize: 10,
         color: '#FF0000',
       }
 
@@ -83,10 +86,37 @@ class App extends React.Component {
                   <TableRow key = {i} data = {animals} />)}
                </tbody>
             </table>
-            <Content/>
+            <Content id={this.state.name}/>
             <p>state id = {this.state.id}</p>
+            <p>score = {this.props.score}</p>
+            <p>animal1 = {this.props.animal1}</p>
+            <p>animal2 = {this.props.animal2}</p>
+            <p>testName = {this.props.testName}</p>
          </div>
       );
    }
 }
+
+/*
+  we are creating App component with all the props that we need. App.propTypes is used for props validation. If some of the props aren't using the correct type that we assigned, we will get a console warning. After we specify validation patterns, we will set App.defaultProps.
+*/
+
+App.propTypes = {
+  animal1: PropTypes.string,
+  animal2: PropTypes.string,
+  testName: PropTypes.string,
+};
+
+/* 
+  Day 8 預設 props 有資料
+  有些時候值在一開始就已經決定了
+  那就不一定要在渲染的時候給
+  可以直接設定組件的defaultProps：
+*/
+App.defaultProps={
+  animal1:"Dogdog",
+  animal2:"Catcat",
+  testName:"1234567"
+}
+
 export default App;
